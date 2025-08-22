@@ -13,7 +13,7 @@ body:
   attributes:
     label: User Story
     description: As a [role], I want [feature] so that [benefit].
-    placeholder: Example: As a teacher, I want an easy story submission form so that students can contribute content quickly.
+    placeholder: As a teacher, I want an easy story submission form so that students can contribute content quickly.
 - type: textarea
   id: acceptance
   attributes:
