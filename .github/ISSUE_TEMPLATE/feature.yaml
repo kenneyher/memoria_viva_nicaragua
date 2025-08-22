@@ -1,36 +1,39 @@
 name: Feature request
 description: Propose a new feature to support MVP/story/map/calendar workflows
 title: "<short-feature-description>"
-labels:
-  - type:feature
-  - status:todo
+labels: ["feat", "todo"]
 body:
-  - type: input
-    id: summary
-    attributes:
-      label: Summary
-      placeholder: Brief one-liner describing the feature
-  - type: textarea
-    id: details
-    attributes:
-      label: User Story
-      description: >
-        As a [role], I want [feature] so that [benefit].
-      placeholder: Example: As a teacher, I want an easy story submission form so that students can contribute content quickly.
-  - type: textarea
-    id: acceptance
-    attributes:
-      label: Acceptance Criteria
-      placeholder: |
-        - [ ] Given/When/Then...
-        - [ ] Non-regression for existing features
-  - type: input
-    id: area
-    attributes:
-      label: Area
-      placeholder: e.g., map, stories, calendar
-  - type: input
-    id: priority
-    attributes:
-      label: Priority
-      placeholder: high/medium/low
+- type: input
+  id: summary
+  attributes:
+    label: Summary
+    placeholder: Brief one-liner describing the feature
+- type: textarea
+  id: details
+  attributes:
+    label: User Story
+    description: As a [role], I want [feature] so that [benefit].
+    placeholder: Example: As a teacher, I want an easy story submission form so that students can contribute content quickly.
+- type: textarea
+  id: acceptance
+  attributes:
+    label: Acceptance Criteria
+    placeholder: |
+      - [ ] Given/When/Then...
+      - [ ] Non-regression for existing features
+- type: input
+  id: area
+  attributes:
+    label: Area
+    placeholder: e.g., map, stories, calendar
+- type: dropdown
+  id: priority
+  attributes:
+    label: Priority
+    options:
+      - High
+      - Low
+      - Mid
+    default: 0
+  validations:
+    required: true
