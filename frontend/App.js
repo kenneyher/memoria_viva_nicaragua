@@ -1,9 +1,7 @@
 import {
   StyleSheet,
-  Text,
   FlatList,
   View,
-  TextInput,
   Button,
 } from "react-native"
 import { useState } from "react"
