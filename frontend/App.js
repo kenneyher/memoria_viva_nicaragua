@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  FlatList,
-  View,
-  TextInput,
-  Button,
-} from "react-native"
+import { StyleSheet, FlatList, View, Button, ScrollView } from "react-native"
 import { useState } from "react"
 import StoryForm from "./components/StoryForm"
 import StoryItem from "./components/StoryItem"
@@ -13,6 +6,10 @@ import StoryItem from "./components/StoryItem"
 export default function App() {
   const [keyword, setKeyword] = useState("")
   const [title, setTitle] = useState("")
+  const [city, setCity] = useState("")
+  const [type, setType] = useState("")
+  const [imgUri, setImgUri] = useState("")
+  const [role, setRole] = useState("")
   const [description, setDescription] = useState("")
   const [isCreatingStory, setIsCreatingStory] = useState(false)
   // stories is going to look like { title: string, description: string }
@@ -28,9 +25,22 @@ export default function App() {
      * ...stories = cada uno de los elementos en stories
      * {title: str, description: str}, {title: str, description: str}, ...
      */
-    setStories([...stories, { title, description }])
-    setTitle('')
-    setDescription('')
+    setStories([
+      ...stories,
+      {
+        title,
+        description,
+        city,
+        type,
+        imgUri,
+      },
+    ])
+    setTitle("")
+    setDescription("")
+    setCity("")
+    setType("")
+    setRole("")
+    setImgUri("")
     setIsCreatingStory(false)
   }
 
@@ -46,9 +56,18 @@ export default function App() {
           <StoryForm
             title={title}
             setTitle={setTitle}
+            city={city}
+            setCity={setCity}
             description={description}
             setDescription={setDescription}
             handleButton={submitInfo}
+            type={type}
+            setType={setType}
+            imgUri={imgUri}
+            setImgUri={setImgUri}
+            role={role}
+            setRole={setRole}
+            setIsCreatingStory={setIsCreatingStory}
           />
         ) : (
           <View>
@@ -57,29 +76,34 @@ export default function App() {
               value={keyword}
               onChangeText={setKeyword}
             />
-            <FlatList
-              data={filterStories(keyword)}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <StoryItem 
-                  title={item.title} content={item.description} 
-                />
-              )}
-              ListEmptyComponent={() => (
-                <Text style={{ textAlign: "center", padding: 20 }}> 
-                  No stories found.
-                </Text>
-              )}
-            />
-            <Button
-              title="+" 
-              color="#FFC74F"
-              onPress={() => setIsCreatingStory(true)}
-            />
+            <ScrollView>
+              <FlatList
+                data={filterStories(keyword)}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <StoryItem
+                    title={item.title}
+                    content={item.description}
+                    city={item.city}
+                    type={item.type}
+                    imgUri={item.imgUri}
+                    role={item.role}
+                  />
+                )}
+                ListEmptyComponent={() => (
+                  <Text style={{ textAlign: "center", padding: 20 }}> 
+                    No stories found.
+                  </Text>
+                )}
+              />
+              <Button
+                title="+" 
+                color="#FFC74F"
+                onPress={() => setIsCreatingStory(true)}
+              />
+            </ScrollView>
           </View>
-
-        )
-      }
+        )}
     </View>
   )
 }
@@ -88,7 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     margin: "1rem",
   },

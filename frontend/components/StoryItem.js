@@ -1,10 +1,25 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Image } from "react-native"
 
-function StoryItem({ title, content }) {
+function StoryItem({ 
+  title, 
+  content,
+  city,
+  type,
+  imgUri,
+  role
+}) {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text>{content}</Text>
+      <Text>{city}</Text>
+      <Text>{type}</Text>
+      <Text>{role}</Text>
+      <Image
+        source={{ uri: imgUri }}
+        style={{ width: 300, height: 300, marginTop: 20 }}
+        resizeMode="contain"
+      />
     </View>
   )
 }
