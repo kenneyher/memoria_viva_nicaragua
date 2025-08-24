@@ -12,6 +12,7 @@ import React, { useState } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
 import nicaragua from "../helpers/nicaragua"
+import LoadingIndicator from "./Loading"
 
 function StoryForm({
   title,
@@ -32,11 +33,11 @@ function StoryForm({
     description: "",
   })
   const [waitResponse, setWaitReponse] = useState(false)
-  const [hovering, setHovering] = useState(false)
+  const [imgAgentActive, setImgAgentActive] = useState(false)
 
   const askAICompletion = async () => {
     setWaitReponse(true)
-    if (!waitResponse) {
+    if (!waitResponse && !imgAgentActive) {
       try {
         const res = await generateStory(description)
         setAgentSuggestion((prev) => ({ ...prev, ...res }))
@@ -48,117 +49,144 @@ function StoryForm({
     }
   }
   const fetchImage = async () => {
-    try {
-      const res = await generateImg(description)
-      if (res.image) {
-        // Convert base64 into data URI
-        setImgUri(`data:image/png;base64,${res.image}`)
+    setImgAgentActive(true)
+    setWaitReponse(true)
+    if (!waitResponse && !imgAgentActive) {
+      try {
+        const res = await generateImg(description)
+        if (res.image) {
+          // Convert base64 into data URI
+          setImgUri(`data:image/png;base64,${res.image}`)
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setWaitReponse(false)
       }
-    } catch (err) {
-      console.error(err)
     }
   }
 
-  const renderAgentRes = () => {
+  function Agent() {
     return (
-      <View>
-        {withAgent && !waitResponse && (
-          <View>
-            <Text style={styles.opaque}>{agentSuggestion.description}</Text>
-            <Pressable
-              style={styles.accept}
-              onPress={() => {
-                setDescription(agentSuggestion.description)
-                setWithAgent(false)
-              }}
-            >
-              <Text style={{ color: "#FFFFFF" }}>Aceptar</Text>
-            </Pressable>
-            <Pressable
-              style={styles.reject}
-              onPress={() => setWithAgent(false)}
-            >
-              <Text style={{ color: "#FFFFFF" }}>Descartar</Text>
-            </Pressable>
-          </View>
-        )}
+      <View
+        style={{
+          position: "fixed",
+          bottom: 5,
+          right: 5,
+          zIndex: 100,
+        }}
+      >
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            gap: 8,
+          }}
+        >
+          {withAgent ? (
+            !waitResponse ? (
+              <View
+                style={{
+                  maxWidth: 400,
+                  maxHeight: 200,
+                  borderRadius: 8,
+                  borderBottomRightRadius: 0,
+                  backgroundColor: "#F5275B",
+                  padding: 8,
+                  fontSize: 10,
+                }}
+              >
+                <ScrollView
+                  style={{
+                    maxWidth: 400,
+                    maxHeight: 200,
+                    padding: 8,
+                    fontSize: 10,
+                  }}
+                >
+                  <Text style={{ color: "white", maxHeight: 250 }}>
+                    {agentSuggestion.description}
+                  </Text>
+                </ScrollView>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    gap: 8,
+                  }}
+                >
+                  <Pressable
+                    style={styles.accept}
+                    onPress={() => {
+                      setDescription(agentSuggestion.description)
+                      setWithAgent(false)
+                    }}
+                  >
+                    <Text style={styles.buttonTxt}>Aceptar</Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.reject}
+                    onPress={() => {
+                      setWithAgent(false)
+                    }}
+                  >
+                    <Text style={styles.buttonTxt}>Descartar</Text>
+                  </Pressable>
+                </View>
+              </View>
+            ) : (
+              <View
+                style={{
+                  maxWidth: 400,
+                  maxHeight: 200,
+                  borderRadius: 8,
+                  borderBottomRightRadius: 0,
+                  backgroundColor: "#F5275B",
+                  padding: 8,
+                  fontSize: 10,
+                }}
+              >
+                <LoadingIndicator />
+              </View>
+            )
+          ) : (
+            <View />
+          )}
+          <View
+            style={{
+              width: 25,
+              borderRadius: "100%",
+              height: 25,
+              backgroundColor: "#F5275B",
+              alignSelf: "flex-end",
+            }}
+          ></View>
+        </View>
       </View>
     )
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View>
-        <Text style={styles.header}>Titulo</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Titulo de la historia"
-          value={title}
-          onChangeText={setTitle}
-        />
-        <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
-          <Text style={styles.header}>Description</Text>
-          <Pressable
-            onPress={() => {
-              setWithAgent(true)
-              askAICompletion()
-            }}
-          >
-            <FontAwesome
-              name="magic"
-              size={24}
-              color="#F5275B"
-              onMouseEnter={() => setHovering(true)}
-              onMouseLeave={() => setHovering(false)}
-            />
-          </Pressable>
-          <Text style={{ color: "#F5275B" }}>
-            Generar con IA a base de la Descripcion
-          </Text>
-        </View>
-        {!waitResponse
-          ? renderAgentRes()
-          : withAgent && (
-              <View>
-                <Text style={styles.opaque}>Agent is thinking</Text>
-              </View>
-            )}
-        <TextInput
-          multiline
-          numberOfLines={4}
-          style={styles.input}
-          placeholder="Description"
-          value={description}
-          onChangeText={setDescription}
-        />
-        <Text style={styles.header}>Ciudad</Text>
-        <Dropdown options={Object.keys(nicaragua)} onSelect={setCity} />
-        <Text style={styles.header}>Tipo</Text>
-        <Dropdown
-          options={["Leyenda", "Relato", "Historia"]}
-          onSelect={setType}
-        />
-        <Text style={styles.header}>Imagen (opcional)</Text>
-        {imgUri != "" ? 
-          <Image
-            source={{ uri: imgUri }}
-            style={{ width: 300, height: 300, marginTop: 20 }}
-            resizeMode="contain"
+    <View>
+      <Agent />
+      <ScrollView style={styles.container}>
+        <View>
+          <Text style={styles.header}>Titulo</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Titulo de la historia"
+            value={title}
+            onChangeText={setTitle}
           />
-        : <Pressable
-          style={styles.dropZone}
-          onPress={() => {
-            console.log("here")
-          }}
-        >
-          <Text style={styles.dropZoneText}>
-            Toca aquí para subir una imagen
-          </Text>
-          <Pressable
-            onPress={fetchImage}
-          >
-            <View
-              style={{ flexDirection: "row", gap: 4, justifyContent: "center" }}
+          <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+            <Text style={styles.header}>Description</Text>
+            <Pressable
+              onPress={() => {
+                setWithAgent(true)
+                askAICompletion()
+              }}
             >
               <FontAwesome
                 name="magic"
@@ -167,15 +195,73 @@ function StoryForm({
                 onMouseEnter={() => setHovering(true)}
                 onMouseLeave={() => setHovering(false)}
               />
-              <Text style={styles.aiText}>Generar con IA</Text>
-            </View>
+              <Text style={{ color: "#F5275B" }}>
+                Generar con IA a base de la Descripcion
+              </Text>
+            </Pressable>
+          </View>
+          <TextInput
+            multiline
+            numberOfLines={4}
+            style={styles.input}
+            placeholder="Description"
+            value={description}
+            onChangeText={setDescription}
+          />
+          <Text style={styles.header}>Ciudad</Text>
+          <Dropdown options={Object.keys(nicaragua)} onSelect={setCity} />
+          <Text style={styles.header}>Tipo</Text>
+          <Dropdown
+            options={["Leyenda", "Relato", "Historia"]}
+            onSelect={setType}
+          />
+          <Text style={styles.header}>Imagen (opcional)</Text>
+          {imgUri != "" ? (
+            <Image
+              source={{ uri: imgUri }}
+              style={{ width: 300, height: 300, marginTop: 20 }}
+              resizeMode="contain"
+            />
+          ) : (
+            <Pressable
+              style={styles.dropZone}
+              onPress={() => {
+                console.log("here")
+              }}
+            >
+              <Text style={styles.dropZoneText}>
+                Toca aquí para subir una imagen
+              </Text>
+              <Pressable onPress={fetchImage}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 4,
+                    justifyContent: "center",
+                  }}
+                >
+                  <FontAwesome
+                    name="magic"
+                    size={24}
+                    color="#F5275B"
+                    onMouseEnter={() => setHovering(true)}
+                    onMouseLeave={() => setHovering(false)}
+                  />
+                  <Text style={styles.aiText}>Generar con IA</Text>
+                </View>
+              </Pressable>
+            </Pressable>
+          )}
+          <Pressable
+            style={styles.button}
+            color="#F5275B"
+            onPress={handleButton}
+          >
+            <Text style={styles.buttonTxt}>Listo!</Text>
           </Pressable>
-        </Pressable>}
-        <Pressable style={styles.button} color="#F5275B" onPress={handleButton}>
-          <Text style={styles.buttonTxt}>Listo!</Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
   )
 }
 
@@ -203,7 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3fdf84ff",
     marginBlock: 2,
     padding: 2,
-    width: 40,
+    width: 100,
     fontWeight: "bold",
     borderRadius: 2,
   },
@@ -213,7 +299,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 2,
     marginBlock: 2,
-    width: 40,
+    width: 100,
     borderRadius: 2,
   },
   container: {
