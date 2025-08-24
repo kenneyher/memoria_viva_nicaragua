@@ -1,4 +1,12 @@
-import { StyleSheet, FlatList, View, Button, ScrollView } from "react-native"
+import {
+  StyleSheet,
+  FlatList,
+  TextInput,
+  View,
+  Text,
+  Button,
+  ScrollView,
+} from "react-native"
 import { useState } from "react"
 import StoryForm from "./components/StoryForm"
 import StoryItem from "./components/StoryItem"
@@ -45,7 +53,9 @@ export default function App() {
   }
 
   const filterStories = (titleSearch) => {
-    return stories.filter(story => story.title.toLowerCase().includes(titleSearch.toLowerCase()))
+    return stories.filter((story) =>
+      story.title.toLowerCase().includes(titleSearch.toLowerCase())
+    )
   }
 
   return (
@@ -71,14 +81,14 @@ export default function App() {
           />
         ) : (
           <View>
-            <TextInput 
+            <TextInput
               placeholder="Search by keyword"
               value={keyword}
               onChangeText={setKeyword}
             />
             <ScrollView>
               <FlatList
-                data={filterStories(keyword)}
+                data={filterStories(keyword) || []}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
                   <StoryItem
@@ -91,19 +101,20 @@ export default function App() {
                   />
                 )}
                 ListEmptyComponent={() => (
-                  <Text style={{ textAlign: "center", padding: 20 }}> 
+                  <Text style={{ textAlign: "center", padding: 20 }}>
                     No stories found.
                   </Text>
                 )}
               />
               <Button
-                title="+" 
+                title="+"
                 color="#FFC74F"
                 onPress={() => setIsCreatingStory(true)}
               />
             </ScrollView>
           </View>
-        )}
+        )
+      }
     </View>
   )
 }
