@@ -19,6 +19,12 @@ function StoryForm({
   description,
   setDescription,
   handleButton,
+  city,
+  setCity,
+  type,
+  setType,
+  imgUri,
+  setImgUri
 }) {
   const [withAgent, setWithAgent] = useState(false)
   const [agentSuggestion, setAgentSuggestion] = useState({
@@ -27,8 +33,6 @@ function StoryForm({
   })
   const [waitResponse, setWaitReponse] = useState(false)
   const [hovering, setHovering] = useState(false)
-  const [imgUri, setImgUri] = useState("")
-
 
   const askAICompletion = async () => {
     setWaitReponse(true)
@@ -129,7 +133,16 @@ const fetchImage = async () => {
           value={description}
           onChangeText={setDescription}
         />
-        {/*<Dropdown options={Object.keys(nicaragua)} />*/}
+        <Text style={styles.header}>Ciudad</Text>
+        <Dropdown 
+          options={Object.keys(nicaragua)}
+          onSelect={setCity}
+        />
+        <Text style={styles.header}>Tipo</Text>
+        <Dropdown 
+          options={["Leyenda","Relato","Historia"]} 
+          onSelect={setType}
+        />
         {imgUri && (
         <Image
           source={{ uri: imgUri }}
