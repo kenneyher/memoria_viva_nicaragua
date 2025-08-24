@@ -1,14 +1,14 @@
 import {
   View,
   Text,
-  Button,
   TextInput,
   Pressable,
   StyleSheet,
-  Image
+  Image,
+  ScrollView,
 } from "react-native"
 import { generateStory, generateImg } from "../api/ai"
-import React, { useState, useRef } from "react"
+import React, { useState } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
 import nicaragua from "../helpers/nicaragua"
@@ -24,7 +24,7 @@ function StoryForm({
   type,
   setType,
   imgUri,
-  setImgUri
+  setImgUri,
 }) {
   const [withAgent, setWithAgent] = useState(false)
   const [agentSuggestion, setAgentSuggestion] = useState({
@@ -47,23 +47,23 @@ function StoryForm({
       }
     }
   }
-const fetchImage = async () => {
+  const fetchImage = async () => {
     try {
       const res = await generateImg(description)
       if (res.image) {
         // Convert base64 into data URI
-        setImgUri(`data:image/png;base64,${res.image}`);
+        setImgUri(`data:image/png;base64,${res.image}`)
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   const renderAgentRes = () => {
     return (
-      <>
+      <View>
         {withAgent && !waitResponse && (
-          <>
+          <View>
             <Text style={styles.opaque}>{agentSuggestion.description}</Text>
             <Pressable
               style={styles.accept}
@@ -80,15 +80,15 @@ const fetchImage = async () => {
             >
               <Text style={{ color: "#FFFFFF" }}>Descartar</Text>
             </Pressable>
-          </>
+          </View>
         )}
-      </>
+      </View>
     )
   }
 
   return (
-    <View style={styles.container}>
-      <View style={{ width: "100%" }}>
+    <ScrollView style={styles.container}>
+      <View>
         <Text style={styles.header}>Titulo</Text>
         <TextInput
           style={styles.input}
@@ -96,9 +96,7 @@ const fetchImage = async () => {
           value={title}
           onChangeText={setTitle}
         />
-        <View
-          style={{ flexDirection: "row", gap: "0.25rem", alignItems: "center" }}
-        >
+        <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
           <Text style={styles.header}>Description</Text>
           <Pressable
             onPress={() => {
@@ -114,16 +112,16 @@ const fetchImage = async () => {
               onMouseLeave={() => setHovering(false)}
             />
           </Pressable>
-          {hovering && (
-            <Text style={{ color: "#F5275B" }}>
-              Generar con IA a base de la Descripcion
-            </Text>
-          )}
+          <Text style={{ color: "#F5275B" }}>
+            Generar con IA a base de la Descripcion
+          </Text>
         </View>
         {!waitResponse
           ? renderAgentRes()
           : withAgent && (
-              <Text style={styles.opaque}>Agent is thinking</Text>
+              <View>
+                <Text style={styles.opaque}>Agent is thinking</Text>
+              </View>
             )}
         <TextInput
           multiline
@@ -134,30 +132,50 @@ const fetchImage = async () => {
           onChangeText={setDescription}
         />
         <Text style={styles.header}>Ciudad</Text>
-        <Dropdown 
-          options={Object.keys(nicaragua)}
-          onSelect={setCity}
-        />
+        <Dropdown options={Object.keys(nicaragua)} onSelect={setCity} />
         <Text style={styles.header}>Tipo</Text>
-        <Dropdown 
-          options={["Leyenda","Relato","Historia"]} 
+        <Dropdown
+          options={["Leyenda", "Relato", "Historia"]}
           onSelect={setType}
         />
-        {imgUri && (
-        <Image
-          source={{ uri: imgUri }}
-          style={{ width: 300, height: 300, marginTop: 20 }}
-          resizeMode="contain"
-        />
-      )}
-        <Pressable style={styles.button} color="#F5275B" onPress={fetchImage}>
-          <Text style={styles.buttonTxt}>Generar Imagen</Text>
-        </Pressable>
+        <Text style={styles.header}>Imagen (opcional)</Text>
+        {imgUri != "" ? 
+          <Image
+            source={{ uri: imgUri }}
+            style={{ width: 300, height: 300, marginTop: 20 }}
+            resizeMode="contain"
+          />
+        : <Pressable
+          style={styles.dropZone}
+          onPress={() => {
+            console.log("here")
+          }}
+        >
+          <Text style={styles.dropZoneText}>
+            Toca aquí para subir una imagen
+          </Text>
+          <Pressable
+            onPress={fetchImage}
+          >
+            <View
+              style={{ flexDirection: "row", gap: 4, justifyContent: "center" }}
+            >
+              <FontAwesome
+                name="magic"
+                size={24}
+                color="#F5275B"
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => setHovering(false)}
+              />
+              <Text style={styles.aiText}>Generar con IA</Text>
+            </View>
+          </Pressable>
+        </Pressable>}
         <Pressable style={styles.button} color="#F5275B" onPress={handleButton}>
           <Text style={styles.buttonTxt}>Listo!</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -166,8 +184,8 @@ export default StoryForm
 const styles = StyleSheet.create({
   input: {
     backgroundColor: "#F0F0F0",
-    borderRadius: "0.1rem",
-    padding: "0.2rem",
+    borderRadius: 4,
+    padding: 2,
     marginBlock: "1rem",
     placeholderTextColor: "#757178",
   },
@@ -183,40 +201,54 @@ const styles = StyleSheet.create({
   accept: {
     color: "#FFFFFF",
     backgroundColor: "#3fdf84ff",
-    marginBlock: "0.2em",
-    padding: "0.15em",
-    width: "5em",
+    marginBlock: 2,
+    padding: 2,
+    width: 40,
     fontWeight: "bold",
-    borderRadius: "0.2em",
+    borderRadius: 2,
   },
   reject: {
     backgroundColor: "#CF0030",
     color: "#FFFFFF",
     fontWeight: "bold",
-    padding: "0.15em",
-    marginBlock: "0.2em",
-    width: "5em",
-    borderRadius: "0.2em",
+    padding: 2,
+    marginBlock: 2,
+    width: 40,
+    borderRadius: 2,
   },
   container: {
-    maxWidth: "40rem",
+    maxWidth: 500,
     width: "100%",
   },
   header: {
-    fontSize: "1.5rem",
+    fontSize: 24,
     fontWeight: 700,
   },
   button: {
-    maxWidth: "10%",
-    width: "10%",
+    maxWidth: 120,
+    width: 120,
     backgroundColor: "#FF2653",
-    borderRadius: "0.5rem",
-    padding: "0.5rem",
-    alignSelf: "flex-end"
+    borderRadius: 5,
+    padding: 5,
+    alignSelf: "flex-end",
   },
   buttonTxt: {
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
+  },
+  dropZone: {
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderStyle: "dashed",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+  },
+  dropZoneText: {
+    color: "#757178",
+    fontStyle: "italic",
   },
 })

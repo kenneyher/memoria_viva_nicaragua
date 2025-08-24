@@ -32,20 +32,19 @@ export default function Dropdown({ options = [], onSelect }) {
         <Text>{selected ? selected : "Select an option"}</Text>
       </Pressable>
 
-      <Animated.ScrollView style={[styles.dropdown, { height: heightInterpolate }]}>
+      <Animated.ScrollView
+        style={[styles.dropdown, { height: heightInterpolate }]}
+      >
         {options.map((option, index) => (
-          <Pressable key={index} style={styles.option} onPress={() => handleSelect(option)}>
+          <Pressable
+            key={index}
+            style={styles.option}
+            onPress={() => handleSelect(option)}
+          >
             <Text>{option}</Text>
           </Pressable>
         ))}
       </Animated.ScrollView>
-
-      {/* Optional: close dropdown when tapping outside */}
-      {open && (
-        <Pressable onPress={() => setOpen(false)}>
-          <View style={styles.overlay} />
-        </Pressable>
-      )}
     </View>
   )
 }
@@ -80,7 +79,10 @@ const styles = StyleSheet.create({
   },
   overlay: {
     position: "absolute",
-    top: 0, left: 0, right: 0, bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     zIndex: 5,
   },
 })
