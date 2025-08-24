@@ -11,6 +11,7 @@ import StoryForm from "./components/StoryForm"
 import StoryItem from "./components/StoryItem"
 
 export default function App() {
+  const [keyword, setKeyword] = useState("")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [isCreatingStory, setIsCreatingStory] = useState(false)
@@ -33,6 +34,10 @@ export default function App() {
     setIsCreatingStory(false)
   }
 
+  const filterStories = (titleSearch) => {
+    return stories.filter(story => story.title.toLowerCase().includes(titleSearch.toLowerCase()))
+  }
+
   return (
     <View style={styles.container}>
       {
@@ -47,19 +52,32 @@ export default function App() {
           />
         ) : (
           <View>
+            <TextInput 
+              placeholder="Search by keyword"
+              value={keyword}
+              onChangeText={setKeyword}
+            />
             <FlatList
-              data={stories}
+              data={filterStories(keyword)}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-                <StoryItem title={item.title} content={item.description} />
+                <StoryItem 
+                  title={item.title} content={item.description} 
+                />
+              )}
+              ListEmptyComponent={() => (
+                <Text style={{ textAlign: "center", padding: 20 }}> 
+                  No stories found.
+                </Text>
               )}
             />
             <Button
-              title="+"
+              title="+" 
               color="#FFC74F"
               onPress={() => setIsCreatingStory(true)}
             />
           </View>
+
         )
       }
     </View>
