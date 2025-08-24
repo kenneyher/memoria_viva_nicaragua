@@ -35,6 +35,6 @@ def generate_story(request: StoryRequest):
 def generate_img(request: StoryRequest):
     try:
         res = gen_img(request.prompt)
-        return res
+        return { "img": res }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")

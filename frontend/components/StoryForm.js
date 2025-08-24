@@ -57,9 +57,9 @@ function StoryForm({
     if (!waitResponse && !imgAgentActive) {
       try {
         const res = await generateImg(description)
-        if (res.image) {
+        if (res.img) {
           // Convert base64 into data URI
-          setImgUri(`data:image/png;base64,${res.image}`)
+          setImgUri(`data:image/webp;base64,${res.img}`)
         }
       } catch (err) {
         console.error(err)
