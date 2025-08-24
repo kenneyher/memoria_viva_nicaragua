@@ -5,11 +5,12 @@ import {
   TextInput,
   Pressable,
   StyleSheet,
-  Animated,
 } from "react-native"
 import { generateStory } from "../api/ai"
 import React, { useState, useRef } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
+import Dropdown from "./Dropdown"
+import nicaragua from "../helpers/nicaragua"
 
 function StoryForm({
   title,
@@ -69,16 +70,18 @@ function StoryForm({
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Titulo</Text>
+      <View style={{ width: "100%" }}>
+        <Text style={styles.header}>Titulo</Text>
         <TextInput
           style={styles.input}
           placeholder="Titulo de la historia"
           value={title}
           onChangeText={setTitle}
         />
-        <View style={{ flexDirection: "row", gap: "0.25rem" }}>
-          <Text>Description</Text>
+        <View
+          style={{ flexDirection: "row", gap: "0.25rem", alignItems: "center" }}
+        >
+          <Text style={styles.header}>Description</Text>
           <Pressable
             onPress={() => {
               setWithAgent(true)
@@ -87,7 +90,7 @@ function StoryForm({
           >
             <FontAwesome
               name="magic"
-              size={16}
+              size={24}
               color="#F5275B"
               onMouseEnter={() => setHovering(true)}
               onMouseLeave={() => setHovering(false)}
@@ -112,7 +115,10 @@ function StoryForm({
           value={description}
           onChangeText={setDescription}
         />
-        <Button color="#F5275B" title="Listo!" onPress={handleButton} />
+        <Dropdown options={Object.keys(nicaragua)} />
+        <Pressable style={styles.button} color="#F5275B" onPress={handleButton}>
+          <Text style={styles.buttonTxt}>Listo!</Text>
+        </Pressable>
       </View>
     </View>
   )
@@ -125,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F0F0",
     borderRadius: "0.1rem",
     padding: "0.2rem",
-    margin: "0.2rem",
+    marginBlock: "1rem",
     placeholderTextColor: "#757178",
   },
   aiText: {
@@ -144,7 +150,7 @@ const styles = StyleSheet.create({
     padding: "0.15em",
     width: "5em",
     fontWeight: "bold",
-    borderRadius: "0.2em"
+    borderRadius: "0.2em",
   },
   reject: {
     backgroundColor: "#CF0030",
@@ -153,8 +159,27 @@ const styles = StyleSheet.create({
     padding: "0.15em",
     marginBlock: "0.2em",
     width: "5em",
-    borderRadius: "0.2em"
+    borderRadius: "0.2em",
   },
   container: {
-  }
+    maxWidth: "40rem",
+    width: "100%",
+  },
+  header: {
+    fontSize: "1.5rem",
+    fontWeight: 700,
+  },
+  button: {
+    maxWidth: "10%",
+    width: "10%",
+    backgroundColor: "#FF2653",
+    borderRadius: "0.5rem",
+    padding: "0.5rem",
+    alignSelf: "flex-end"
+  },
+  buttonTxt: {
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+  },
 })
