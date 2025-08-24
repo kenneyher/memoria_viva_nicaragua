@@ -5,7 +5,8 @@ function StoryItem({
   content,
   city,
   type,
-  imgUri 
+  imgUri,
+  role
 }) {
   return (
     <View style={styles.card}>
@@ -13,6 +14,7 @@ function StoryItem({
       <Text>{content}</Text>
       <Text>{city}</Text>
       <Text>{type}</Text>
+      <Text>{role}</Text>
       <Image
         source={{ uri: imgUri }}
         style={{ width: 300, height: 300, marginTop: 20 }}
