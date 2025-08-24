@@ -5,8 +5,9 @@ import {
   TextInput,
   Pressable,
   StyleSheet,
+  Image
 } from "react-native"
-import { generateStory } from "../api/ai"
+import { generateStory, generateImg } from "../api/ai"
 import React, { useState, useRef } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
@@ -26,6 +27,8 @@ function StoryForm({
   })
   const [waitResponse, setWaitReponse] = useState(false)
   const [hovering, setHovering] = useState(false)
+  const [imgUri, setImgUri] = useState("")
+
 
   const askAICompletion = async () => {
     setWaitReponse(true)
@@ -40,6 +43,17 @@ function StoryForm({
       }
     }
   }
+const fetchImage = async () => {
+    try {
+      const res = await generateImg(description)
+      if (res.image) {
+        // Convert base64 into data URI
+        setImgUri(`data:image/png;base64,${res.image}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const renderAgentRes = () => {
     return (
@@ -105,7 +119,7 @@ function StoryForm({
         {!waitResponse
           ? renderAgentRes()
           : withAgent && (
-              <Text style={styles.opaque}>{"Agent is thinking..."}</Text>
+              <Text style={styles.opaque}>Agent is thinking</Text>
             )}
         <TextInput
           multiline
@@ -115,7 +129,17 @@ function StoryForm({
           value={description}
           onChangeText={setDescription}
         />
-        <Dropdown options={Object.keys(nicaragua)} />
+        {/*<Dropdown options={Object.keys(nicaragua)} />*/}
+        {imgUri && (
+        <Image
+          source={{ uri: imgUri }}
+          style={{ width: 300, height: 300, marginTop: 20 }}
+          resizeMode="contain"
+        />
+      )}
+        <Pressable style={styles.button} color="#F5275B" onPress={fetchImage}>
+          <Text style={styles.buttonTxt}>Generar Imagen</Text>
+        </Pressable>
         <Pressable style={styles.button} color="#F5275B" onPress={handleButton}>
           <Text style={styles.buttonTxt}>Listo!</Text>
         </Pressable>
