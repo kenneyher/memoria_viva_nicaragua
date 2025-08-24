@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from agents.story_agent import gen_story
+from agents.image_agent import gen_img
 import logging
 
 
@@ -9,7 +10,7 @@ app = FastAPI()
 # ✅ Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["http://localhost:8081"] for stricter security
+    allow_origins=["*"],  # or ["http://localhost:19006"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,3 +30,11 @@ def generate_story(request: StoryRequest):
         return res
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating story: {str(e)}")
+
+@app.post("/ai/generate-img")
+def generate_img(request: StoryRequest):
+    try:
+        res = gen_img(request.prompt)
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")
