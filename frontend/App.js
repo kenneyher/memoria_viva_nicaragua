@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "flex-start",
+    alignItems: "center",
     margin: "1rem",
   },
 })
