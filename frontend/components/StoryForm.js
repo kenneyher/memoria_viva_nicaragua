@@ -26,6 +26,9 @@ function StoryForm({
   setType,
   imgUri,
   setImgUri,
+  role,
+  setRole,
+  setIsCreatingStory,
 }) {
   const [withAgent, setWithAgent] = useState(false)
   const [agentSuggestion, setAgentSuggestion] = useState({
@@ -201,13 +204,34 @@ function StoryForm({
             value={description}
             onChangeText={setDescription}
           />
-          <Text style={styles.header}>Ciudad</Text>
-          <Dropdown options={Object.keys(nicaragua)} onSelect={setCity} />
-          <Text style={styles.header}>Tipo</Text>
-          <Dropdown
-            options={["Leyenda", "Relato", "Historia"]}
-            onSelect={setType}
-          />
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <View>
+              <Text style={styles.header}>Ciudad</Text>
+              <Dropdown options={Object.keys(nicaragua)} onSelect={setCity} />
+            </View>
+            <View>
+              <Text style={styles.header}>Tipo</Text>
+              <Dropdown
+                options={["Leyenda", "Relato", "Historia"]}
+                onSelect={setType}
+              />
+            </View>
+            <View>
+              <Text style={styles.header}>Rol</Text>
+              <Dropdown
+                options={[
+                  "Estudiante",
+                  "Educador",
+                  "Ciudadano",
+                  "Experto",
+                  "Otros",
+                ]}
+                onSelect={setRole}
+              />
+            </View>
+          </View>
           <Text style={styles.header}>Imagen (opcional)</Text>
           {imgUri != "" ? (
             <Image
@@ -239,13 +263,41 @@ function StoryForm({
               </Pressable>
             </Pressable>
           )}
-          <Pressable
-            style={styles.button}
-            color="#F5275B"
-            onPress={handleButton}
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 8,
+              justifyContent: "flex-end",
+            }}
           >
-            <Text style={styles.buttonTxt}>Listo!</Text>
-          </Pressable>
+            <Pressable
+              style={styles.button}
+              color="#F5275B"
+              onPress={() => {
+                setIsCreatingStory(false)
+              }}
+            >
+              <Text style={styles.buttonTxt}>Descartar</Text>
+            </Pressable>
+            <Pressable
+              style={styles.button}
+              color="#F5275B"
+              onPress={() => {
+                if (
+                  title.trim() &&
+                  description.trim() &&
+                  role.trim() &&
+                  city.trim() &&
+                  type.trim()
+                ) {
+                  handleButton()
+                }
+              }}
+            >
+              <Text style={styles.buttonTxt}>Listo!</Text>
+            </Pressable>
+          </View>
         </View>
       </ScrollView>
       <Agent />
@@ -304,6 +356,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF2653",
     borderRadius: 5,
     padding: 5,
+    marginBlock: 10,
     alignSelf: "flex-end",
   },
   buttonTxt: {

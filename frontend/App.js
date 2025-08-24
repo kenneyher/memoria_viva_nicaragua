@@ -8,6 +8,7 @@ export default function App() {
   const [city, setCity] = useState("")
   const [type, setType] = useState("")
   const [imgUri, setImgUri] = useState("")
+  const [role, setRole] = useState("")
   const [description, setDescription] = useState("")
   const [isCreatingStory, setIsCreatingStory] = useState(false)
   // stories is going to look like { title: string, description: string }
@@ -35,50 +36,58 @@ export default function App() {
     ])
     setTitle("")
     setDescription("")
+    setCity("")
+    setType("")
+    setRole("")
+    setImgUri("")
     setIsCreatingStory(false)
   }
 
   return (
     <View style={styles.container}>
-        {
-          // Equivalent Python is result if condition else other-result
-          isCreatingStory ? (
-            <StoryForm
-              title={title}
-              setTitle={setTitle}
-              city={city}
-              setCity={setCity}
-              description={description}
-              setDescription={setDescription}
-              handleButton={submitInfo}
-              type={type}
-              setType={setType}
-              imgUri={imgUri}
-              setImgUri={setImgUri}
+      {
+        // Equivalent Python is result if condition else other-result
+        isCreatingStory ? (
+          <StoryForm
+            title={title}
+            setTitle={setTitle}
+            city={city}
+            setCity={setCity}
+            description={description}
+            setDescription={setDescription}
+            handleButton={submitInfo}
+            type={type}
+            setType={setType}
+            imgUri={imgUri}
+            setImgUri={setImgUri}
+            role={role}
+            setRole={setRole}
+            setIsCreatingStory={setIsCreatingStory}
+          />
+        ) : (
+          <ScrollView>
+            <FlatList
+              data={stories}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <StoryItem
+                  title={item.title}
+                  content={item.description}
+                  city={item.city}
+                  type={item.type}
+                  imgUri={item.imgUri}
+                  role={item.role}
+                />
+              )}
             />
-          ) : (
-            <ScrollView>
-              <FlatList
-                data={stories}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <StoryItem
-                    title={item.title}
-                    content={item.description}
-                    city={item.city}
-                    type={item.type}
-                    imgUri={item.imgUri}
-                  />
-                )}
-              />
-              <Button
-                title="+"
-                color="#FFC74F"
-                onPress={() => setIsCreatingStory(true)}
-              />
-            </ScrollView>
-          )
-        }
+            <Button
+              title="+"
+              color="#FFC74F"
+              onPress={() => setIsCreatingStory(true)}
+            />
+          </ScrollView>
+        )
+      }
     </View>
   )
 }
