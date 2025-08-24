@@ -27,7 +27,7 @@ def gen_story(prompt: str):
                 prompt
             ]
         )
-        story = StoryResponse.model_validate_json(response.text)
+        story = StoryResponse.model_validate_json(response.text) # type: ignore
         return story.model_dump()
     except Exception as e:
         print(e)

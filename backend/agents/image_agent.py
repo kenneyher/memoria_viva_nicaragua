@@ -24,8 +24,8 @@ def gen_img(prompt: str):
                 response_modalities=['TEXT','IMAGE'],
             )
         )
-        for candidate in response.candidates:
-            for part in candidate.content.parts:
+        for candidate in response.candidates: # pyright: ignore[reportOptionalIterable]
+            for part in candidate.content.parts: # type: ignore
                 if hasattr(part, "inline_data") and part.inline_data is not None:
                     if hasattr(part.inline_data, "data"):
                         # Some SDKs return bytes, some return str
