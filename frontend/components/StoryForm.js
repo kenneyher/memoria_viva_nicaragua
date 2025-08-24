@@ -70,7 +70,7 @@ function StoryForm({
     return (
       <View
         style={{
-          position: "fixed",
+          position: "absolute",
           bottom: 5,
           right: 5,
           zIndex: 100,
@@ -156,9 +156,9 @@ function StoryForm({
           )}
           <View
             style={{
-              width: 25,
-              borderRadius: "100%",
-              height: 25,
+              width: 28,
+              borderRadius: 10,
+              height: 28,
               backgroundColor: "#F5275B",
               alignSelf: "flex-end",
             }}
@@ -169,8 +169,7 @@ function StoryForm({
   }
 
   return (
-    <View>
-      <Agent />
+    <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
       <ScrollView style={styles.container}>
         <View>
           <Text style={styles.header}>Titulo</Text>
@@ -188,13 +187,7 @@ function StoryForm({
                 askAICompletion()
               }}
             >
-              <FontAwesome
-                name="magic"
-                size={24}
-                color="#F5275B"
-                onMouseEnter={() => setHovering(true)}
-                onMouseLeave={() => setHovering(false)}
-              />
+              <FontAwesome name="magic" size={24} color="#F5275B" />
               <Text style={{ color: "#F5275B" }}>
                 Generar con IA a base de la Descripcion
               </Text>
@@ -240,13 +233,7 @@ function StoryForm({
                     justifyContent: "center",
                   }}
                 >
-                  <FontAwesome
-                    name="magic"
-                    size={24}
-                    color="#F5275B"
-                    onMouseEnter={() => setHovering(true)}
-                    onMouseLeave={() => setHovering(false)}
-                  />
+                  <FontAwesome name="magic" size={24} color="#F5275B" />
                   <Text style={styles.aiText}>Generar con IA</Text>
                 </View>
               </Pressable>
@@ -261,6 +248,7 @@ function StoryForm({
           </Pressable>
         </View>
       </ScrollView>
+      <Agent />
     </View>
   )
 }
@@ -303,7 +291,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   container: {
-    maxWidth: 500,
+    maxWidth: 700,
     width: "100%",
   },
   header: {
