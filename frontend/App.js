@@ -12,6 +12,9 @@ import StoryItem from "./components/StoryItem"
 
 export default function App() {
   const [title, setTitle] = useState("")
+  const [city, setCity] = useState("")
+  const [type, setType] = useState("")
+  const [imgUri, setImgUri] = useState("")
   const [description, setDescription] = useState("")
   const [isCreatingStory, setIsCreatingStory] = useState(false)
   // stories is going to look like { title: string, description: string }
@@ -27,7 +30,13 @@ export default function App() {
      * ...stories = cada uno de los elementos en stories
      * {title: str, description: str}, {title: str, description: str}, ...
      */
-    setStories([...stories, { title, description }])
+    setStories([...stories, { 
+      title, 
+      description,
+      city, 
+      type,
+      imgUri
+     }])
     setTitle('')
     setDescription('')
     setIsCreatingStory(false)
@@ -41,9 +50,15 @@ export default function App() {
           <StoryForm
             title={title}
             setTitle={setTitle}
+            city={city}
+            setCity={setCity}
             description={description}
             setDescription={setDescription}
             handleButton={submitInfo}
+            type={type}
+            setType={setType}
+            imgUri={imgUri}
+            setImgUri={setImgUri}
           />
         ) : (
           <View>
@@ -51,7 +66,13 @@ export default function App() {
               data={stories}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-                <StoryItem title={item.title} content={item.description} />
+                <StoryItem 
+                  title={item.title} 
+                  content={item.description}
+                  city={item.city}
+                  type={item.type}
+                  imgUri={item.imgUri}  
+                />
               )}
             />
             <Button
