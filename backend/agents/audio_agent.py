@@ -20,10 +20,10 @@ def gen_tts(text: str):
             instructions=INSTRUCTION_PROMPTS["generate-tts"],
             response_format="mp3"
         ) as response:
-            audio_bytes = b''.join(response.json)
+            audio_bytes = b''.join(response.iter_bytes())
 
-        audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
-        return {"audio_base64": audio_b64}
+        audio_b64 = base64.b64encode(audio_bytes).decode("ascii")
+        return audio_b64
     
     except Exception as e:
         print(e)

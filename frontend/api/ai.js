@@ -22,12 +22,13 @@ const generateImg = async (prompt) => {
 
 const textToSpeech = async (prompt) => {
   try {
-    const res = await apiClient.post("/ai/generate-tts", {prompt})
+    const res = await apiClient.post("/ai/generate-tts", { prompt })
     console.log(res.data)
-    //return res.data.audio_base64;
+    return res.data
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 
-export { generateStory, generateImg }
+export { generateStory, generateImg, textToSpeech }

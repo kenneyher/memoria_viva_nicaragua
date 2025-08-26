@@ -12,12 +12,7 @@ export default function App() {
   const [description, setDescription] = useState("")
   const [isCreatingStory, setIsCreatingStory] = useState(false)
   // stories is going to look like { title: string, description: string }
-  const [stories, setStories] = useState([
-    {
-      title: "La Llorona",
-      description: "Llora por sus hijos :c",
-    },
-  ])
+  const [stories, setStories] = useState([])
 
   const submitInfo = () => {
     /**
@@ -65,7 +60,7 @@ export default function App() {
             setIsCreatingStory={setIsCreatingStory}
           />
         ) : (
-          <ScrollView>
+          <View>
             <FlatList
               data={stories}
               keyExtractor={(item, index) => index.toString()}
@@ -85,7 +80,7 @@ export default function App() {
               color="#FFC74F"
               onPress={() => setIsCreatingStory(true)}
             />
-          </ScrollView>
+          </View>
         )
       }
     </View>
@@ -98,6 +93,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    margin: "1rem",
+    margin: 2,
   },
 })
