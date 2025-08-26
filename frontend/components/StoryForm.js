@@ -31,10 +31,7 @@ function StoryForm({
   setIsCreatingStory,
 }) {
   const [withAgent, setWithAgent] = useState(false)
-  const [agentSuggestion, setAgentSuggestion] = useState({
-    title: "",
-    description: "",
-  })
+  const [agentSuggestion, setAgentSuggestion] = useState({})
   const [waitResponse, setWaitReponse] = useState(false)
   const [imgAgentActive, setImgAgentActive] = useState(false)
 
