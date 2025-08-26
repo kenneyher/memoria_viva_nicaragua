@@ -1,4 +1,14 @@
-import { View, Text, StyleSheet, Image } from "react-native"
+import React, { useState, useEffect } from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image, 
+  Pressable 
+} from "react-native";
+import { useAudioPlayer } from "expo-audio";
+import * as FileSystem from "expo-file-system";
+import { textToSpeech } from "../api/ai";
 
 function StoryItem({ 
   title, 
@@ -8,6 +18,18 @@ function StoryItem({
   imgUri,
   role
 }) {
+
+  const [audioUri, setAudioUri] = useState(null);
+  const player = useAudioPlayer(audioUri);
+
+  const handlePlay = async () => {
+    try {
+      if (audioUri) {
+        
+      }
+    }
+  }
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
@@ -20,6 +42,12 @@ function StoryItem({
         style={{ width: 300, height: 300, marginTop: 20 }}
         resizeMode="contain"
       />
+      <Pressable 
+        style={styles.audioBtn}
+        //onPress={s}  
+      >
+        <Text>Play</Text>
+      </Pressable>
     </View>
   )
 }
@@ -39,5 +67,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#4F90FF",
     fontSize: "1.2em"
+  },
+  audioBtn: {
+    backgroundColor: "#4F90FF"
   }
 })

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from agents.story_agent import gen_story
 from agents.image_agent import gen_img
+from agents.audio_agent import gen_tts
 import logging
 
 
@@ -38,3 +39,11 @@ def generate_img(request: StoryRequest):
         return { "img": res }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")
+    
+@app.post("/ai/generate-tts")
+def generate_audio(request: StoryRequest):
+    try:
+        res = gen_tts(request.prompt)
+        return { "audio": res }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"error generating audio: {str(e)}")
