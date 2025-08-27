@@ -129,16 +129,16 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   dropdown: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.bg,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: colors.borders,
     borderRadius: 6,
     overflow: "hidden",
   },
   option: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: colors.fgSecondary,
   },
   optionText: { fontSize: 14 },
 })

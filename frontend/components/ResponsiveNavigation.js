@@ -9,6 +9,7 @@ import Map from '../screens/Map';
 import Calendar from '../screens/Calendar';
 import Library from '../screens/Library';
 import Learn from '../screens/Learn';
+import {colors} from '../helpers/palettes'
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,8 +38,8 @@ const TabNavigator = () => (
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: '#FFC74F',
-      tabBarInactiveTintColor: 'gray',
+      tabBarActiveTintColor: colors.secondary,
+      tabBarInactiveTintColor: colors.fgSecondary,
       headerShown: false,
     })}
   >
@@ -54,14 +55,14 @@ const DrawerNavigator = () => (
   <Drawer.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#FFC74F',
+        backgroundColor: colors.primary,
       },
-      headerTintColor: '#fff',
+      headerTintColor: colors.bg,
       headerTitleStyle: {
         fontWeight: 'bold',
       },
-      drawerActiveTintColor: '#FFC74F',
-      drawerInactiveTintColor: 'gray',
+      drawerActiveTintColor: colors.secondary,
+      drawerInactiveTintColor: colors.fgSecondary,
     }}
   >
     <Drawer.Screen 

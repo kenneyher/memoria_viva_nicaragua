@@ -84,7 +84,7 @@ const Stories = () => {
             />
             <Button
               title="+"
-              color="#FFC74F"
+              color={colors.accent}
               onPress={() => setIsCreatingStory(true)}
             />
           </ScrollView>
