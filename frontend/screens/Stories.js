@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, FlatList, Button, StyleSheet } from 'react-native';
 import StoryForm from '../components/StoryForm';
 import StoryItem from '../components/StoryItem';
+import {colors} from "../helpers/palettes";
 
 const Stories = () => {
   const [title, setTitle] = useState("")
@@ -96,7 +97,7 @@ const Stories = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bg,
     padding: 16,
   },
 });

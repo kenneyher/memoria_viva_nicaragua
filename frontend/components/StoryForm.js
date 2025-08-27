@@ -13,6 +13,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
 import nicaragua from "../helpers/nicaragua"
 import LoadingIndicator from "./Loading"
+import {colors} from "../helpers/palettes" 
 
 function StoryForm({
   title,
@@ -190,8 +191,8 @@ function StoryForm({
                 askAICompletion()
               }}
             >
-              <FontAwesome name="magic" size={24} color="#F5275B" />
-              <Text style={{ color: "#F5275B" }}>
+              <FontAwesome name="magic" size={24} color={colors.primary} />
+              <Text style={{ color: colors.primary }}>
                 Generar con IA a base de la Descripcion
               </Text>
             </Pressable>
@@ -257,7 +258,7 @@ function StoryForm({
                     justifyContent: "center",
                   }}
                 >
-                  <FontAwesome name="magic" size={24} color="#F5275B" />
+                  <FontAwesome name="magic" size={24} color={colors.primary} />
                   <Text style={styles.aiText}>Generar con IA</Text>
                 </View>
               </Pressable>
@@ -273,7 +274,7 @@ function StoryForm({
           >
             <Pressable
               style={styles.button}
-              color="#F5275B"
+              color={colors.accent}
               onPress={() => {
                 setIsCreatingStory(false)
               }}
@@ -282,7 +283,7 @@ function StoryForm({
             </Pressable>
             <Pressable
               style={styles.button}
-              color="#F5275B"
+              color={colors.accent}
               onPress={() => {
                 if (
                   title.trim() &&
@@ -309,15 +310,15 @@ export default StoryForm
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: "#F0F0F0",
+    backgroundColor: colors.bgSecondary,
     borderRadius: 4,
     padding: 2,
     marginBlock: "1rem",
-    placeholderTextColor: "#757178",
+    placeholderTextColor: colors.fgSecondary,
   },
   aiText: {
     userSelect: "none",
-    color: "#CF0030",
+    color: colors.primary,
     fontStyle: "italic",
   },
   opaque: {
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   reject: {
-    backgroundColor: "#CF0030",
+    backgroundColor: colors.accent,
     color: "#FFFFFF",
     fontWeight: "bold",
     padding: 2,
@@ -345,15 +346,17 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 700,
     width: "100%",
+    backgroundColor: colors.bg,
   },
   header: {
     fontSize: 24,
     fontWeight: 700,
+    color: colors.fg,
   },
   button: {
     maxWidth: 120,
     width: 120,
-    backgroundColor: "#FF2653",
+    backgroundColor: colors.accent,
     borderRadius: 5,
     padding: 5,
     marginBlock: 10,
@@ -366,7 +369,7 @@ const styles = StyleSheet.create({
   },
   dropZone: {
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: colors.borders,
     borderStyle: "dashed",
     borderRadius: 10,
     padding: 20,
@@ -375,7 +378,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   dropZoneText: {
-    color: "#757178",
+    color: colors.fgSecondary,
     fontStyle: "italic",
   },
 })
