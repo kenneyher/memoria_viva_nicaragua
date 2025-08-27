@@ -11,6 +11,7 @@ import {
   UIManager,
   findNodeHandle,
 } from "react-native"
+import palettes, { colors } from "../helpers/palettes"
 
 const Dropdown = ({ options, placeholder = "Select an option", onSelect }) => {
   const [open, setOpen] = useState(false)
@@ -108,17 +109,21 @@ const Dropdown = ({ options, placeholder = "Select an option", onSelect }) => {
 }
 
 const styles = StyleSheet.create({
-  container: { margin: 20 },
+  container: { 
+    margin: 20 
+  },
   button: {
     padding: 12,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: colors.bgSecondary,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: colors.borders,
     minWidth: 160,
     width: 160,
   },
-  buttonText: { fontSize: 16 },
+  buttonText: { 
+    fontSize: 16, 
+  },
   modalOverlay: {
     flex: 1,
     backgroundColor: "transparent",
