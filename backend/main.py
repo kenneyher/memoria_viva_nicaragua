@@ -5,6 +5,8 @@ from agents.story_agent import gen_story
 from agents.image_agent import gen_img
 import logging
 
+logging.basicConfig(level=logging.INFO)
+logger=logging.getLogger(__name__)
 
 app = FastAPI()
 # ✅ Enable CORS
@@ -27,6 +29,7 @@ def read_root():
 def generate_story(request: StoryRequest):
     try: 
         res = gen_story(request.prompt)
+        logger.info(res)
         return res
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating story: {str(e)}")
@@ -35,6 +38,6 @@ def generate_story(request: StoryRequest):
 def generate_img(request: StoryRequest):
     try:
         res = gen_img(request.prompt)
-        return { "img": res }
+        return res
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")
