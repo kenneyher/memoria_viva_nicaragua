@@ -18,15 +18,6 @@ INSTRUCTION_PROMPTS = {
         de la leyenda/mito/cuento que el usuario intenta contar.
     """,
     "generate_img": """
-        Basado en el contexto que el usuario te está dando, genera una imagen del
-        personaje, lugar, u objeto descrito en el relato. 
-
-        El estilo de la imagen debe de asemejar el contexto de Nicaragua, debe ser
-        como una ilustración para un libro de texto o como portada de historieta.
-        No incluyas elementos futuristas ni texto, mantén las imágenes aptas para todo
-        público y asegúrate que sean elementos SOLAMENTE de la cultura Nica. 
-
-        Utiliza un estilo artístico primitivista inspirado por las ilustraciones de Frank
-        Frazetta.
+        En el estilo de beksinski.
     """
 }
