@@ -1,0 +1,58 @@
+name: Bug report
+description: Report a bug or error found in the Living Memory of Nicaragua app
+title: "[Bug] <short-description>"
+labels:
+  - type:bug
+  - area:infra
+  - status:todo
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: Short one-liner describing the bug
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: >
+        1. Open the app
+        2. Navigate to <screen/feature>
+        3. Do something that triggers the bug
+  - type: input
+    id: expected
+    attributes:
+      label: Expected Behavior
+      placeholder: What you expected to happen
+  - type: input
+    id: actual
+    attributes:
+      label: Actual Behavior
+      placeholder: What actually happened
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Browser, OS, app version, device
+  - type: input
+    id: severity
+    attributes:
+      label: Severity
+      placeholder: low/medium/high
+  - type: textarea
+    id: reproduction
+    optional: true
+    attributes:
+      label: Reproduction Notes
+      placeholder: Any additional details to help reproduce
+  - type: input
+    id: attachments
+    attributes:
+      label: Attachments
+      placeholder: URL or file reference (screenshots, logs)
+  - type: boolean
+    id: visibleToUser
+    attributes:
+      label: Is this issue visible to users?
+      true_label: Yes
+      false_label: No
