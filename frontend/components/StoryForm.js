@@ -322,12 +322,12 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   opaque: {
-    color: "#757178",
+    color: colors.fgSecondary,
     fontStyle: "italic",
   },
   accept: {
-    color: "#FFFFFF",
-    backgroundColor: "#3fdf84ff",
+    color: colors.bg,
+    backgroundColor: colors.secondary,
     marginBlock: 2,
     padding: 2,
     width: 100,
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   },
   reject: {
     backgroundColor: colors.accent,
-    color: "#FFFFFF",
+    color: colors.bg,
     fontWeight: "bold",
     padding: 2,
     marginBlock: 2,
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
   },
   buttonTxt: {
     fontWeight: "bold",
-    color: "white",
+    color: colors.bg,
     textAlign: "center",
   },
   dropZone: {

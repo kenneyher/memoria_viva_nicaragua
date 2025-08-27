@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Image } from "react-native"
+import { View, Text, StyleSheet, Image } from "react-native";
+import {colors} from "../helpers/palettes"
 
 function StoryItem({ 
   title, 
@@ -11,7 +12,7 @@ function StoryItem({
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
-      <Text>{content}</Text>
+      <Text style={styles.txt}>{content}</Text>
       <Text>{city}</Text>
       <Text>{type}</Text>
       <Text>{role}</Text>
@@ -29,15 +30,18 @@ export default StoryItem
 const styles = StyleSheet.create({
   card: {
     flexDirection: "column",
-    backgroundColor: "#F6F5FA",
+    backgroundColor: colors.bgSecondary,
     borderLeftWidth: "1em",
     paddingLeft: "0.5em",
-    borderLeftColor: "#FFC74F",
+    borderLeftColor: colors.secondary,
     marginBlock: "1em"
   },
   title: {
     fontWeight: "bold",
-    color: "#4F90FF",
+    color: colors.primary,
     fontSize: "1.2em"
-  }
+  },
+  txt: {
+    color: colors.fg,
+  },
 })
