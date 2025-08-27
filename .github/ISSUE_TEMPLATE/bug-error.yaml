@@ -41,7 +41,7 @@ body:
       placeholder: low/medium/high
   - type: textarea
     id: reproduction
-    optional: true
+    required: false
     attributes:
       label: Reproduction Notes
       placeholder: Any additional details to help reproduce
@@ -50,9 +50,10 @@ body:
     attributes:
       label: Attachments
       placeholder: URL or file reference (screenshots, logs)
-  - type: boolean
+  - type: checkboxes
     id: visibleToUser
     attributes:
       label: Is this issue visible to users?
-      true_label: Yes
-      false_label: No
+      options:
+        - label: Yes
+        - label: No
