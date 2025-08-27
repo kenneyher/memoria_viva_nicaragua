@@ -41,7 +41,8 @@ body:
       placeholder: low/medium/high
   - type: textarea
     id: reproduction
-    required: false
+    validations:
+      required: false
     attributes:
       label: Reproduction Notes
       placeholder: Any additional details to help reproduce
@@ -55,5 +56,5 @@ body:
     attributes:
       label: Is this issue visible to users?
       options:
-        - label: Yes
-        - label: No
+        - label: Yes, it is
+        - label: No, it's not
