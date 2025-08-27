@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Stories from '../screens/Stories';
 import Map from '../screens/Map';
+// import MapWeb from '../screens/Map.web';
 import Calendar from '../screens/Calendar';
 import Library from '../screens/Library';
 import Learn from '../screens/Learn';

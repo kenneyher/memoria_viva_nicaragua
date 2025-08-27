@@ -31,15 +31,15 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "column",
     backgroundColor: colors.bgSecondary,
-    borderLeftWidth: "1em",
-    paddingLeft: "0.5em",
+    borderLeftWidth: 10,
+    paddingLeft: 5,
     borderLeftColor: colors.secondary,
-    marginBlock: "1em"
+    marginBlock: 10
   },
   title: {
     fontWeight: "bold",
     color: colors.primary,
-    fontSize: "1.2em"
+    fontSize: 12
   },
   txt: {
     color: colors.fg,

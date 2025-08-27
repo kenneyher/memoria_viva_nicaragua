@@ -67,7 +67,7 @@ const Stories = () => {
             setIsCreatingStory={setIsCreatingStory}
           />
         ) : (
-          <ScrollView>
+          <View>
             <FlatList
               data={stories}
               keyExtractor={(item, index) => index.toString()}
@@ -87,7 +87,7 @@ const Stories = () => {
               color={colors.accent}
               onPress={() => setIsCreatingStory(true)}
             />
-          </ScrollView>
+          </View>
         )
       }
     </View>
