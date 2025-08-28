@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native"
 import { generateStory, generateImg } from "../api/ai"
+import { addStory } from "../api/db"
 import React, { useState } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
@@ -284,7 +285,7 @@ function StoryForm({
             <Pressable
               style={styles.button}
               color={colors.accent}
-              onPress={() => {
+              onPress={async () => {
                 if (
                   title.trim() &&
                   description.trim() &&
@@ -292,6 +293,13 @@ function StoryForm({
                   city.trim() &&
                   type.trim()
                 ) {
+                  await addStory({
+                    title,
+                    content: description,
+                    type,
+                    author: "noobmaster69",
+                    media_url: imgUri,
+                  })
                   handleButton()
                 }
               }}
