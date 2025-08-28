@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, ScrollView, FlatList, Button, StyleSheet } from 'react-native';
-import StoryForm from '../components/StoryForm';
-import StoryItem from '../components/StoryItem';
-import {colors} from "../helpers/palettes";
+import React, { useState } from "react"
+import { View, ScrollView, FlatList, Button, StyleSheet } from "react-native"
+import StoryForm from "../components/StoryForm"
+import StoryItem from "../components/StoryItem"
+import { colors } from "../helpers/palettes"
 
 const Stories = () => {
   const [title, setTitle] = useState("")
@@ -17,6 +17,10 @@ const Stories = () => {
     {
       title: "La Llorona",
       description: "Llora por sus hijos :c",
+      city: "Chinandega",
+      type: "Leyenda",
+      imgUri: "",
+      role: "Estudiante"
     },
   ])
 
@@ -46,7 +50,7 @@ const Stories = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ backgroundColor: colors.bg, flex: 1 }}>
       {
         // Equivalent Python is result if condition else other-result
         isCreatingStory ? (
@@ -67,39 +71,43 @@ const Stories = () => {
             setIsCreatingStory={setIsCreatingStory}
           />
         ) : (
-          <View>
-            <FlatList
-              data={stories}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <StoryItem
-                  title={item.title}
-                  content={item.description}
-                  city={item.city}
-                  type={item.type}
-                  imgUri={item.imgUri}
-                  role={item.role}
-                />
-              )}
-            />
-            <Button
-              title="+"
-              color={colors.accent}
-              onPress={() => setIsCreatingStory(true)}
-            />
+          <View style={{ backgroundColor: colors.bg, flex: 1,  alignItems: "center"  }}>
+            <View style={[styles.container, { flex: 1,}]}>
+              <FlatList
+                data={stories}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <StoryItem
+                    title={item.title}
+                    content={item.description}
+                    city={item.city}
+                    type={item.type}
+                    imgUri={item.imgUri}
+                    role={item.role}
+                  />
+                )}
+              />
+              <Button
+                title="+"
+                color={colors.accent}
+                onPress={() => setIsCreatingStory(true)}
+              />
+            </View>
           </View>
         )
       }
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.bg,
     padding: 16,
+    width: 600,
+    maxWidth: 600,
   },
-});
+})
 
-export default Stories;
+export default Stories
