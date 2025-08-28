@@ -4,25 +4,28 @@ import { colors } from "../helpers/palettes"
 function StoryItem({ title, content, city, type, imgUri, role }) {
   return (
     <View style={styles.card}>
-      <View style={[styles.txt, styles.down]}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={{color: colors.fgSecondary}}>noobmaster69 - {role}</Text>
-        <Text style={styles.txt} numberOfLines={3} ellipsizeMode="tail">{content}</Text>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonTxt}>Ver mas?</Text>
-        </Pressable>
+      <View style={styles.infoContainer}>
+        <View style={[styles.txt, styles.down]}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={{color: colors.fgSecondary}}>noobmaster69 - {role}</Text>
+          <Text style={styles.txt} numberOfLines={3} ellipsizeMode="tail">{content}</Text>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonTxt}>Ver mas?</Text>
+          </Pressable>
+        </View>
+        {imgUri != "" && (
+              <Image
+                source={{ uri: imgUri }}
+                style={[styles.img, { width: '30%', height: 200, marginTop: 20 }]}
+                resizeMode="contain"
+              />
+        )}
       </View>
-      {imgUri != "" && (
-        <Image
-          source={{ uri: imgUri }}
-          style={{ width: 200, height: "auto", marginTop: 20 }}
-          resizeMode="contain"
-        />
-      )}
       <View style={styles.sideBySide}>
         <Text style={{color: colors.fgSecondary}}>{city}</Text>
         <Text style={{color: colors.fgSecondary}}>{type}</Text>
       </View>
+
     </View>
   )
 }
@@ -31,6 +34,7 @@ export default StoryItem
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     flexDirection: "column",
     boxShadow: `5px 5px 10px ${colors.bgSecondary}`,
     borderColor: colors.bgSecondary,
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     gap: 8
   },
   down: {
-    flexDirection: "col",
+    flexDirection: "column",
     gap: 2,
     width: "70%",
     minWidth: "70%"
@@ -65,5 +69,12 @@ const styles = StyleSheet.create({
   buttonTxt: {
     fontWeight: "bold",
     color: colors.primary,
+  },
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  img: {
+    borderRadius: 5
   }
 })
