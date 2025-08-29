@@ -1,6 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from contextlib import asynccontextmanager
+from database import connect_db, innit_db, is_connected, disconnect_db
+from crud import create_story, get_stories
 from agents.story_agent import gen_story
 from agents.image_agent import gen_img
 from agents.audio_agent import gen_tts
@@ -9,7 +12,30 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger=logging.getLogger(__name__)
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Starting FastAPI application...")
+
+    connection_succ = await connect_db()
+    if not connection_succ:
+        print("Failed to connect to DB during startup")
+        yield 
+        return
+    
+    try:
+        await innit_db()
+        print("Database initialized succesfully")
+    except Exception as e:
+        print(f"Failed to initialized DB: {e}")
+        yield 
+        return
+
+    print("FastAPI application started successfully")
+    yield
+    print("Shutting down FastAPI app...")
+    await disconnect_db()
+
+app = FastAPI(lifespan=lifespan)
 # ✅ Enable CORS
 app.add_middleware(
     CORSMiddleware,
@@ -21,6 +47,13 @@ app.add_middleware(
 
 class StoryRequest(BaseModel):
     prompt: str
+
+class Story(BaseModel):
+    title: str
+    content: str
+    type: str
+    author: str
+    media_url: str
 
 @app.get("/")
 def read_root():
@@ -43,10 +76,44 @@ def generate_img(request: StoryRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")
     
-@app.post("ai/generate-tts")
+@app.post("/ai/generate-tts")
 def generate_audio(request: StoryRequest):
     try:
         res = gen_tts(request.prompt)
         return res
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"Error generating audio: {str(e)}" )
+
+@app.post("/db/add-story")
+async def add_story(request:Story):
+    try:
+        logger.info(f"Database connection status: {is_connected()}")
+
+        if not is_connected():
+            raise HTTPException(status_code=503, detail="Database not connected")
+
+        logger.info(request)
+        await create_story(
+            request.title,
+            request.content,
+            request.author,
+            request.media_url,
+            request.type
+        )
+        return {"status": "success", "message": "Story added successfully"}
+    except Exception as e: 
+        logger.error(f"Error adding story: {str(e)}")
+        raise HTTPException(status_code=500,detail=f"Error adding story: {str(e)}" )
+
+@app.get("/db/stories")
+async def fetch_stories():
+    """Get all stories"""
+    try:
+        if not is_connected():
+            raise HTTPException(status_code=503, detail="Database not connected")
+
+        stories = await get_stories()
+        return {"status": "success", "stories": stories}
+    except Exception as e:
+        logger.error(f"Error getting stories: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error getting stories: {str(e)}")
