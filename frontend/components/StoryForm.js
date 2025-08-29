@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native"
 import { generateStory, generateImg } from "../api/ai"
-import { addStory } from "../api/db"
 import React, { useState } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
