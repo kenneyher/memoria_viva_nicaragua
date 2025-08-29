@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react"
-import { View, ScrollView, FlatList, Button, StyleSheet, Text, ActivityIndicator } from "react-native"
-import StoryForm from "../components/StoryForm"
-import StoryItem from "../components/StoryItem"
-import { colors } from "../helpers/palettes"
+import React, { useState, useEffect, useEffect } from 'react';
+import { View, ScrollView, FlatList, Button, StyleSheet, Text, ActivityIndicator, Text, ActivityIndicator } from 'react-native';
+import StoryForm from '../components/StoryForm';
+import StoryItem from '../components/StoryItem';
+import {colors} from "../helpers/palettes";
+import { addStory, getAllStories } from '../api/db';
 import { addStory, getAllStories } from '../api/db';
 
 const Stories = () => {
@@ -146,6 +147,7 @@ const Stories = () => {
               color={colors.accent}
               onPress={loadStories}
             />
+
           </View>
         </View>
       )}
