@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native"
 import { generateStory, generateImg } from "../api/ai"
-import { addStory } from "../api/db"
 import React, { useState } from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Dropdown from "./Dropdown"
@@ -53,6 +52,7 @@ function StoryForm({
       }
     }
   }
+
   const fetchImage = async () => {
     setImgAgentActive(true)
     setWaitReponse(true)
@@ -181,6 +181,7 @@ function StoryForm({
           <TextInput
             style={styles.input}
             placeholder="Titulo de la historia"
+            placeholderTextColor={colors.fgSecondary}
             value={title}
             onChangeText={setTitle}
           />
@@ -203,6 +204,7 @@ function StoryForm({
             numberOfLines={4}
             style={styles.input}
             placeholder="Description"
+            placeholderTextColor={colors.fgSecondary}
             value={description}
             onChangeText={setDescription}
           />
@@ -245,7 +247,7 @@ function StoryForm({
             <Pressable
               style={styles.dropZone}
               onPress={() => {
-                console.log("here")
+                // Hook up native picker here if desired
               }}
             >
               <Text style={styles.dropZoneText}>
@@ -275,7 +277,6 @@ function StoryForm({
           >
             <Pressable
               style={styles.button}
-              color={colors.accent}
               onPress={() => {
                 setIsCreatingStory(false)
               }}
@@ -284,7 +285,6 @@ function StoryForm({
             </Pressable>
             <Pressable
               style={styles.button}
-              color={colors.accent}
               onPress={async () => {
                 if (
                   title.trim() &&
@@ -293,14 +293,8 @@ function StoryForm({
                   city.trim() &&
                   type.trim()
                 ) {
-                  await addStory({
-                    title,
-                    content: description,
-                    type,
-                    author: "noobmaster69",
-                    media_url: imgUri,
-                  })
-                  handleButton()
+                  // Delegate submission to parent handler
+                  await handleButton()
                 }
               }}
             >
@@ -322,7 +316,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 2,
     marginBlock: "1rem",
-    placeholderTextColor: colors.fgSecondary,
   },
   aiText: {
     userSelect: "none",
@@ -358,7 +351,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: "700",
     color: colors.fg,
   },
   button: {
