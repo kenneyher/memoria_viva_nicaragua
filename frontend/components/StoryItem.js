@@ -17,7 +17,7 @@ function StoryItem({ title, content, city, type, imgUri, role }) {
               <Image
                 source={{ uri: imgUri }}
                 style={[styles.img, { width: '30%', height: 200, marginTop: 20 }]}
-                resizeMode="contain"
+                resizeMode="cover"
               />
         )}
       </View>
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 2,
     width: "70%",
-    minWidth: "70%"
+    minWidth: "70%",
+    paddingRight: 10,
   },
   sideBySide: {
     flexDirection: "row",
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     color: colors.fg,
+    textAlign: 'justify',
   },
   buttonTxt: {
     fontWeight: "bold",
@@ -75,6 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   img: {
-    borderRadius: 5
+    borderRadius: 6,
+    overflow: "hidden",
   }
 })
