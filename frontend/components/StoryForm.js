@@ -181,6 +181,7 @@ function StoryForm({
             style={styles.input}
             placeholder="Titulo de la historia"
             value={title}
+            placeholderTextColor={colors.fgSecondary}
             onChangeText={setTitle}
           />
           <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
@@ -203,6 +204,7 @@ function StoryForm({
             style={styles.input}
             placeholder="Description"
             value={description}
+            placeholderTextColor={colors.fgSecondary}
             onChangeText={setDescription}
           />
           <View
@@ -274,7 +276,6 @@ function StoryForm({
           >
             <Pressable
               style={styles.button}
-              color={colors.accent}
               onPress={() => {
                 setIsCreatingStory(false)
               }}
@@ -283,8 +284,7 @@ function StoryForm({
             </Pressable>
             <Pressable
               style={styles.button}
-              color={colors.accent}
-              onPress={() => {
+              onPress={async () => {
                 if (
                   title.trim() &&
                   description.trim() &&
@@ -292,7 +292,7 @@ function StoryForm({
                   city.trim() &&
                   type.trim()
                 ) {
-                  handleButton()
+                  await handleButton()
                 }
               }}
             >
@@ -314,7 +314,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 2,
     marginBlock: "1rem",
-    placeholderTextColor: colors.fgSecondary,
   },
   aiText: {
     userSelect: "none",
@@ -350,7 +349,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: "700",
     color: colors.fg,
   },
   button: {
