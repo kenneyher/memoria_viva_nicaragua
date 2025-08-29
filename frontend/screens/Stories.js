@@ -146,18 +146,21 @@ const Stories = () => {
               color={colors.accent}
               onPress={loadStories}
             />
+
           </View>
         </View>
       )}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.bg,
     padding: 16,
+    width: 600,
+    maxWidth: 600,
   },
   loadingContainer: {
     flex: 1,
@@ -209,4 +212,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Stories;
+export default Stories

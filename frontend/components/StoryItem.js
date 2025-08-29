@@ -1,26 +1,31 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import {colors} from "../helpers/palettes"
+import { View, Text, StyleSheet, Image, Pressable } from "react-native"
+import { colors } from "../helpers/palettes"
 
-function StoryItem({ 
-  title, 
-  content,
-  city,
-  type,
-  imgUri,
-  role
-}) {
+function StoryItem({ title, content, city, type, imgUri, role }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.txt}>{content}</Text>
-      <Text>{city}</Text>
-      <Text>{type}</Text>
-      <Text>{role}</Text>
-      <Image
-        source={{ uri: imgUri }}
-        style={{ width: 300, height: 300, marginTop: 20 }}
-        resizeMode="contain"
-      />
+      <View style={styles.infoContainer}>
+        <View style={[styles.txt, styles.down]}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={{color: colors.fgSecondary}}>noobmaster69 - {role}</Text>
+          <Text style={styles.txt} numberOfLines={3} ellipsizeMode="tail">{content}</Text>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonTxt}>Ver mas?</Text>
+          </Pressable>
+        </View>
+        {imgUri != "" && (
+              <Image
+                source={{ uri: imgUri }}
+                style={[styles.img, { width: '30%', height: 200, marginTop: 20 }]}
+                resizeMode="cover"
+              />
+        )}
+      </View>
+      <View style={styles.sideBySide}>
+        <Text style={{color: colors.fgSecondary}}>{city}</Text>
+        <Text style={{color: colors.fgSecondary}}>{type}</Text>
+      </View>
+
     </View>
   )
 }
@@ -29,19 +34,50 @@ export default StoryItem
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     flexDirection: "column",
-    backgroundColor: colors.bgSecondary,
-    borderLeftWidth: 10,
-    paddingLeft: 5,
-    borderLeftColor: colors.secondary,
-    marginBlock: 10
+    boxShadow: `5px 5px 10px ${colors.bgSecondary}`,
+    borderColor: colors.bgSecondary,
+    borderWidth: 2,
+    borderStyle: "solid",
+    marginBlock: 10,
+    marginInline: 5,
+    padding: 10,
+    borderRadius: 12,
+    gap: 8
+  },
+  down: {
+    flexDirection: "column",
+    gap: 2,
+    width: "70%",
+    minWidth: "70%",
+    paddingRight: 10,
+  },
+  sideBySide: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
+    gap: 10
   },
   title: {
     fontWeight: "bold",
     color: colors.primary,
-    fontSize: 12
+    fontSize: 24,
   },
   txt: {
     color: colors.fg,
+    textAlign: 'justify',
   },
+  buttonTxt: {
+    fontWeight: "bold",
+    color: colors.primary,
+  },
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  img: {
+    borderRadius: 6,
+    overflow: "hidden",
+  }
 })
